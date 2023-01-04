@@ -1,0 +1,121 @@
+.container {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+}
+
+.search {
+    background-color: rgb(75, 72, 72);
+    * {
+        color: #ccc
+    }
+    input {
+        background-color: rgb(75, 72, 72);
+        color: #ccc
+    }
+}
+
+.btn-find-new-friends {
+    display: inline-block;
+    color: #ccc;
+    text-decoration: underline;
+    margin-left: auto;
+    padding: 0.2rem;
+    border-radius: 4px;
+
+    &:hover {
+        background-color: rgb(125, 125, 125);
+    }
+}
+
+.list-chats {
+    margin-top: 2rem;
+    flex: 1;
+    overflow: hidden;
+    margin-right: var(--scrollbar-width);
+    z-index: 11;
+    
+    &:hover {
+        overflow-y: scroll;
+        margin-right: 0;
+    }
+    
+    .chat-item {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        margin-bottom: 0.4rem;
+        padding: 0.2rem;
+        
+        .main {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items:stretch;
+            justify-content: flex-start;
+            background-color: rgb(75, 72, 72);
+            border-radius: 10px;
+
+            &:hover{
+                background-color: #ccc;
+                cursor: pointer;
+            }
+            
+            .user {
+                width: 100%;
+                padding: 0;
+                margin-top: 0;
+
+                &:not(:has(.more-actions:not(:hover))) {
+                    background-color: rgb(75, 72, 72);
+                }
+            }
+
+            .more-actions {
+
+
+                &:hover {
+                    background-color: #ccc;
+                }
+            }
+        }
+    }
+}
+
+
+.detail-more-actions {
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content:center;
+    border-bottom: 1px solid white;
+    margin-top: 1rem;
+
+    .item {
+        background-color: rgb(89, 87, 87);
+        width: 50%;
+        margin-bottom: 1rem;
+        color: white;
+    }
+    
+    .item:hover {
+        background-color: rgb(111, 106, 106);
+        cursor: pointer;
+    }
+}
+
+.inbox {
+    box-shadow: 0 0 4px white;
+}
+
+.no-chats {
+    color: white;
+    font-weight: bold;
+    font-size: 2rem;
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    margin: 1rem 0;
+}

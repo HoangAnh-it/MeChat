@@ -1,0 +1,44 @@
+.container {
+    padding: 0.4rem;
+    margin: 0.2rem;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    background-color: #ccc;
+    
+    &:hover {
+        background-color: #ccc;
+    }
+
+    .icon {
+        padding: 0.2rem;
+        margin: 0.2rem;
+
+        svg {
+            height: var(--min-size-icon);
+            min-width: var(--min-size-icon);
+        }
+    }
+
+    .children {
+        padding: 0.2rem;
+        margin: 0.2rem;
+    }    
+}
+
+.primary {
+    background-color: var(--primary-color)
+}
+
+.disable {
+    opacity: 0.2;
+    pointer-events: none
+}
+
+.children {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

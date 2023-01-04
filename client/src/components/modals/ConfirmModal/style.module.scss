@@ -1,0 +1,34 @@
+.container {
+    padding: 1rem;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(226, 219, 219);
+    box-shadow: 0 0 10px black;
+    max-width: 40rem;
+
+    * {
+        text-align: center;
+    }
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 1rem 0;
+
+    .btn {
+        background-color: rgb(122, 122, 122);
+        transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+        background-color: rgb(140, 138, 138);
+        * {
+            background-color: rgb(140, 138, 138);
+            color: white
+        }
+    }
+
+}

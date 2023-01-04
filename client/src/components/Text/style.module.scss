@@ -1,0 +1,19 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    position: relative;
+    word-break: break-word;
+    word-wrap: break-word;
+    width: 100%;
+}
+
+.loading_message {
+    display: inline-block;
+    min-width: 70px;
+    color: #ccc;
+    position: absolute;
+    top: 100%;
+    right: 100%;
+    font-size: 1.6rem;
+}

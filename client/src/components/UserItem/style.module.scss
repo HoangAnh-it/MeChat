@@ -1,0 +1,45 @@
+.container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    border-radius: 10px;
+    color: white;
+}
+
+.avatar {
+    min-width: 4.6rem;
+    height: 4.6rem !important;
+    border-radius: 50%;
+    padding: 0.2rem;
+    overflow: hidden;
+    padding: 0.4rem;
+}
+
+.info {
+    width: 30%;
+    margin: 0 0.4rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0.4rem;
+
+    .name, .description {
+        width: 100%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .description {
+        opacity: 0.6;
+    }
+}
+
+.more {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}

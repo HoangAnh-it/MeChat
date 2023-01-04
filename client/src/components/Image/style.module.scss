@@ -1,0 +1,59 @@
+.container {
+    display: inline-block;
+    height: 100%;
+    aspect-ratio: 1;
+    position: relative;
+    
+    img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.icon {
+    min-width: 20px;
+    aspect-ratio:1;
+    padding: 0.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ccc;
+    position: absolute;
+    border-radius: 50%;
+
+    &:hover {
+        background-color: #fff;
+        cursor: pointer;
+    }
+}
+
+.center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.top-right {
+    top: 0;
+    left: 100%;
+    transform: translate(-50%, -50%);
+}
+
+.top-left {
+    top: 0;
+    right: 100%;
+    transform: translate(50%, -50%);
+}
+
+.bottom-left {
+    bottom: 0;
+    right: 100%;
+    transform: translate(50%, 50%)
+}
+
+.bottom-right {
+    bottom: 0;
+    left: 100%;
+    transform: translate(-50%, 50%)
+}

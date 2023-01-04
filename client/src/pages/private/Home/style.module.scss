@@ -1,0 +1,43 @@
+.container {
+    width: 100%;
+    height: calc(100% - var(--header-height));
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--background-main);
+    
+    .item {
+        height: 100%;
+        border: 1px solid black;
+    }
+    
+}
+.sidebar {
+    padding: 0.4rem;
+    flex: 1
+}
+
+.chat-center {
+    flex: 4
+}
+
+.chat-detail {
+    flex: 1
+}
+
+.empty-chat-container {
+    flex: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .text {
+        color: white;
+        font-size: 5rem;
+        padding: 2rem;
+        box-shadow: 0 0 10px white;
+        border-radius: 10px;
+        pointer-events: none;
+    }
+}

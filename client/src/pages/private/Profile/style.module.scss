@@ -1,0 +1,128 @@
+.container {
+    width: 100%;
+    height: calc(100% - var(--header-height));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: var(--background-main);
+}
+
+.avatar {
+    max-width: 500px;
+    min-width: 4.6rem;
+    width: 15%;
+    height: auto;
+    border-radius: 50%;
+    margin: 1rem 0;
+    overflow: hidden;
+}
+
+.basic-info {
+    color: white;
+    text-align: center;
+
+    .name {
+        margin: 1rem;
+    }
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    .btn-action {
+        margin: 0 1.2rem;
+    }
+}
+
+.detail-info {
+    min-width: 4.6rem;
+    width: 30%;
+    min-height: 100px;
+    background-color: rgb(70, 70, 70);
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 8px;
+    color: white;
+    position: relative;
+
+     * {
+         overflow-x: hidden;
+         text-overflow: ellipsis;
+     }
+
+     .title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .more-icon {
+            width: 30px;
+            aspect-ratio: 1;
+            font-size: 2rem;
+            transform: rotate(90deg);
+            margin: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            overflow: hidden;
+
+            &:hover {
+                background-color: #ccc;
+                cursor: pointer;
+                color: black;
+            }
+        }
+     }
+
+    .description {
+        display: block;
+        text-align: center;
+        margin: 0.6rem 0;
+    }
+
+    .more-info {
+        .item {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            font-size: 2rem;
+            padding: 0.4rem;
+            margin: 0.4rem 0;
+        }
+
+        .item .icon {
+            margin: 0 0.4rem;
+        }
+
+        .item .content {
+            margin: 0 1rem;
+        }
+    }
+}
+
+.send-mail {
+    font-size: 1.4rem;
+    color: black;
+    margin-left: auto
+}
+
+.more-actions {
+    position: absolute;
+    top: 0;
+    left: calc(100% + 0.8rem);
+    background-color: rgb(118, 118, 118);
+    visibility: hidden;
+
+    .btn {
+        color: black;
+    }
+
+    .btn:hover {
+        opacity: 0.7;
+    }
+}

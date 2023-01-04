@@ -1,0 +1,93 @@
+@import "normalize.css";
+@import 'react-toastify/dist/ReactToastify.css';
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --base-font-size:1.6rem;
+    --min-size-icon: 2rem;
+    --base-padding: 0.2rem;
+    --primary-color: rgb(0, 242, 254);
+    --background-header:rgb(52, 50, 50); 
+    --background-main: rgb(50, 50, 50);
+    --header-height: 6.4rem;
+    --scrollbar-width: 4px;
+}
+
+html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-size: 1.6rem;
+}
+
+
+img {
+    display: inline-block;
+}
+
+a {
+    text-decoration: none;
+}
+
+html *::-webkit-scrollbar {
+    border-radius: 0;
+    width: var(--scrollbar-width);
+}
+
+html *::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: rgb(115, 113, 113);
+}
+html *::-webkit-scrollbar-track {
+    border-radius: 0;
+    background-color: white;
+}
+
+input {
+    outline: none;
+}
+
+.App {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    background: url('../../assets/images/background.jpeg') no-repeat;
+    background-size: 100% 100%;
+    position: relative;
+}
+
+.tippy-box {
+    background-color: #ccc;
+    padding: 0.6rem;
+    border-radius: 4px;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+#modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255,255,255, 0.3);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

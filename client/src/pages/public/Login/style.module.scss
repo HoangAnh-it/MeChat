@@ -1,0 +1,97 @@
+.container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px white;
+    padding: 1rem;
+    min-width: 30%;
+    border-radius: 10px;
+    background-color: #fff;
+    border: 1px solid black;
+}
+
+.container, 
+.content  {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+    width: 100%;
+}
+
+.title {
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    font-size: 3.2rem;
+    border-bottom: 1px solid black;
+    margin-bottom: 1rem;
+}
+
+.input {
+    width: 100%;
+    padding: 0.4rem;
+
+    input {
+        outline: none;
+        border: none;
+    }
+}
+
+
+.btn-login {
+    margin-top: 1rem;
+    border: 1px solid black;
+}
+
+.forgot-password, .dont-have {
+    color: black;
+    margin: 0.4rem;
+    width: 100%;
+    text-align: center;
+}
+
+.forgot-password:hover, .dont-have:hover {
+    text-decoration: underline;
+}
+
+.forgot-password {
+    text-align: right;
+}
+
+.login-more {
+    width: 100%;
+    margin: 0.8rem 0;
+    text-align: center;
+
+    .title-more {
+        margin: 0.8rem 0;
+    }
+
+    .options {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        .icon {
+            min-width: 8.4rem;
+            height: 3.2rem;
+            line-height: 1rem;
+        }
+
+        .google-login {
+            margin-right: 0.4rem;
+            color: red;
+        }
+        
+        .facebook-login {
+            margin-left: 0.4rem;
+            color: blue
+        }
+    }
+}

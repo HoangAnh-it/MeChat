@@ -1,0 +1,32 @@
+.container {
+    overflow: hidden;
+    margin-right: var(--scrollbar-width);
+    position: relative;
+
+    &:hover {
+        overflow-y: scroll;
+        margin-right: 0;
+    }
+}
+
+.welcome {
+    width: 100%;
+    text-align: center;
+    padding: 0.4rem 0;
+    color:white;
+    text-shadow: 0px 0px 4px white;
+}
+
+.welcome + .welcome {
+    margin-bottom: 2.4rem;
+}
+
+.loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    background-color: rgba(255, 255, 255, 0.2);
+}

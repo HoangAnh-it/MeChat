@@ -1,0 +1,28 @@
+.container {
+    padding: 0.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    
+    .content {
+        transition: all 0.2s linear;
+        border-radius: 10px;
+        padding: 0.2rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        min-width: 4.6rem;
+    }
+
+    .content:hover {
+        background-color: rgb(112, 112, 112);
+    }
+}
+
+.brief {
+    background-color: rgb(87, 87, 87);
+    border-radius: 50%;
+    color: white;
+    padding: 0.2rem;
+}

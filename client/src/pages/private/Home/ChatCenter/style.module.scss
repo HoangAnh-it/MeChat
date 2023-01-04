@@ -1,0 +1,21 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    width: 100%;
+    min-height: var(--header-height);
+    margin: 0;
+    padding: 0 0.4rem;
+    background-color: var(--background-main);
+}
+
+.inbox {
+    flex: 1;
+    margin-top: 1rem;
+    z-index: 90;
+}
+
+.chat-panel {
+}

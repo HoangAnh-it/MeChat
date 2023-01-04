@@ -1,0 +1,41 @@
+.container {
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 0 4px white;
+    text-align: center;
+    min-width: 50rem;
+    max-width: 50%;
+}
+
+.title {
+    margin: 1rem 0;
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    
+    .item {
+        margin: 1rem 0;
+        width: 100%;
+
+        * {
+            font-size: 1.6rem;
+        }
+    }
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 1rem 0;
+
+    .btn {
+        font-size: 1.4rem !important;
+        background-color: #ccc;
+    }
+}
