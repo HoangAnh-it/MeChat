@@ -15,8 +15,8 @@ function ChatCenter(props) {
     const [socket, socketEvents] = useSocket()
 
     useEffect(() => {
-        const userChattingListener = (userChatting) => {
-            setUserChatting(userChatting);
+        const userChattingListener = (data) => {
+            setUserChatting(data);
         }
         
         socket.on(socketEvents.INBOX, userChattingListener)
@@ -29,7 +29,7 @@ function ChatCenter(props) {
     return (
         <div className={[cx('container'), className].join(' ')}>
             <Header className={cx('header')} userChatting={userChatting} />
-            <Inbox className={cx('inbox')} />
+            <Inbox className={cx('inbox')} userChatting={userChatting}/>
             <ChatPanel className={cx('chat-panel')}
                 conversation={{
                     id: userChatting.conversationId,

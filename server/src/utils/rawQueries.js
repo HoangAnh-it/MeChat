@@ -9,7 +9,7 @@ const tables = {
 const queries = {
     chatsPreview:`
         SELECT 
-            c.id AS conversationId,
+            DISTINCT c.id AS conversationId,
             c.type AS conversationType,
             c.name AS conversationName,
             c.avatar AS conversationAvatar,
@@ -41,18 +41,13 @@ const queries = {
                       ,
                     '}'
                     )
+                SEPARATOR '&&'
             ) as lastMessage
 
         FROM ${tables.Users} as u
         INNER JOIN ${tables.GroupMembers} as g_m ON u.id = g_m.userId
-        INNER JOIN ${tables.Conversations} as c ON g_m.conversationId = c.id
-        INNER JOIN ${tables.Messages} as m ON m.conversationId = c.id
-        WHERE
-            c.id IN (
-                SELECT conversationId from ${tables.GroupMembers} where userId = :userId
-            )
-        AND
-                u.id != :userId
+        INNER JOIN ${tables.Conversations} as c ON c.id = g_m.conversationId
+        LEFT JOIN ${tables.Messages} as m ON m.conversationId = c.id
         AND
             m.id = (
                 SELECT id from ${tables.Messages} 
@@ -60,6 +55,13 @@ const queries = {
                 ORDER BY orderNumber DESC
                 LIMIT 1
             )
+            
+        WHERE
+            c.id IN (
+                SELECT DISTINCT conversationId from ${tables.GroupMembers} where userId = :userId
+            )
+        AND
+                u.id != :userId
         GROUP BY c.id
     `,
 
@@ -84,14 +86,7 @@ const queries = {
         INNER JOIN ${tables.Conversations} c ON c.id = m.conversationId
         LEFT JOIN ${tables.Reaction} r ON r.messageId = m.id
         WHERE
-            c.type = 'private'
-            AND
-            c.id = (
-                SELECT conversationId FROM ${tables.GroupMembers}
-                WHERE userId IN (:myId, :otherId)
-                GROUP BY conversationId
-                HAVING COUNT(conversationId) >= 2
-            )
+            c.id = :conversationId
         GROUP BY m.id
         ORDER BY m.orderNumber DESC
         LIMIT :limit

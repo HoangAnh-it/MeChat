@@ -16,10 +16,15 @@ const homeService = {
                     },
                     type: QueryTypes.SELECT,
                 })
+                
 
                 chats.forEach(chat => {
                     chat.users = chat.users.split('&&').map(user => JSON.parse(user));
-                    chat.lastMessage = JSON.parse(chat.lastMessage)
+                    if (chat.conversationType === 'private') {
+                        chat.lastMessage = JSON.parse(chat.lastMessage)
+                    } else if (chat.conversationType === 'public') {
+                        chat.lastMessage = JSON.parse(chat.lastMessage.split('&&')[0]);
+                    }
                 })
 
                 resolve(chats);

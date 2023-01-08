@@ -1,0 +1,133 @@
+.container {
+    width: 100%;
+    height: calc(100% - var(--header-height));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: var(--background-main);
+}
+
+.avatar {
+    max-width: 500px;
+    min-width: 4.6rem;
+    width: 10%;
+    max-width: 20rem;
+    height: auto;
+    border-radius: 50%;
+    margin: 0.5rem 0;
+    overflow: hidden;
+    transition: opacity 0.2s ease;
+    cursor: pointer;
+    box-shadow: 0 0 4px white;
+}
+
+.basic-info {
+    color: white;
+    text-align: center;
+
+    .name {
+        margin: 0.5rem;
+
+        input {
+            font-size: 1.4rem;
+            border: none
+        }
+    }
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1rem 0;
+
+    .btn-action {
+        margin: 0 1.2rem;
+    }
+}
+
+.detail-info {
+    min-width: 4.6rem;
+    width: 40%;
+    min-height: 100px;
+    background-color: rgb(70, 70, 70);
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 8px;
+    color: white;
+    position: relative;
+
+     * {
+         overflow-x: hidden;
+         text-overflow: ellipsis;
+     }
+
+     .title {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        border-bottom: 1px solid rgb(234, 230, 230);
+        padding: 1rem 0 ;
+        font-weight: bold;
+
+        .edit-button {
+            font-size: 1.2rem;
+            margin: 0 0.5rem;
+            color: white;
+        }
+
+     }
+
+    
+}
+
+.send-mail {
+    font-size: 1.4rem;
+    color: black;
+    margin-left: auto
+}
+
+.more-actions {
+    position: absolute;
+    top: 0;
+    left: calc(100% + 0.8rem);
+    background-color: rgb(118, 118, 118);
+    visibility: hidden;
+
+    .btn {
+        color: black;
+    }
+
+    .btn:hover {
+        opacity: 0.7;
+    }
+}
+
+.you, .admin {
+    margin: 0 1rem;
+    padding: 0.2rem 0.5rem;
+    background-color: rgb(0, 208, 255);
+    border-radius: 10px;
+    color: black;
+}
+
+.item {
+    background-color: rgb(93, 93, 93);
+    margin: 0.5rem 0;
+}
+
+.members {
+    .members-title {
+        font-weight: 500;
+        margin: 1rem 0;
+        display: inline-block;
+    }
+
+    .list {
+        padding: 1rem;
+        max-height: 50rem;
+        overflow-y: scroll;
+    }
+}

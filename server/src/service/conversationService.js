@@ -4,13 +4,12 @@ const queries = require('../utils/rawQueries');
 const messageService = require('./messageService');
 
 const conversationService = {
-    getMessages: (myId, otherId, more = {}) => {
+    getMessages: (conversationId, more = {}) => {
         return new Promise(async (resolve, reject) => {
             try {
                 const listMessages = await db.sequelize.query(queries.messages, {
                     replacements: {
-                        myId,
-                        otherId,
+                        conversationId,
                         ...more
                     },
                     type: QueryTypes.SELECT,
@@ -123,7 +122,127 @@ const conversationService = {
                 reject(error)
             }
         })
+    },
+
+    getDetail: (id) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const identicalConversations = await db.Conversation.findAll({
+                    where: {id},
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt']
+                    },
+                    include: [{
+                        model: db.User,
+                        attributes: ['id', 'avatar', [Sequelize.fn("concat", Sequelize.col("firstName"), ' ', Sequelize.col("lastName")), 'name'], 'email', 'phoneNumber'],
+                        through: {
+                            attributes: []
+                        }
+                    }],
+                    raw: true,
+                    nest: true
+                })
+
+                let { Users, ...res } = identicalConversations[0];
+                res.users = [];
+                for (const con of identicalConversations) {
+                    res.users = [
+                        ...res.users,
+                        con.Users
+                    ]
+                }
+
+                resolve(res)
+            } catch (error) {
+                reject(error)
+            }
+        })
+    },
+
+    createConversation: function(userId, data)  {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const { avatar, name, members } = data;
+                const conversation = await db.Conversation.create({
+                    name, avatar,
+                    type: 'public',
+                    admin: userId
+                });
+
+                await this.joinConversation(conversation, [...members, userId]);
+                resolve(conversation)
+            } catch (error) {
+                reject(error)
+            }
+        })
+    },
+
+    joinConversation: function (conversation, ids) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const users = await db.User.findAll({
+                    where: {
+                        id: {
+                            [Op.or]: ids
+                        }
+                    },
+                    attributes: ['id', 'avatar', 'firstName', 'lastName', 'email', 'phoneNumber'],
+                })
+                conversation.addUsers(ids)
+                resolve()
+            } catch (error) {
+                reject(error)
+            }
+        })
+    },
+
+    update: (id, dataUpdated) => {
+        return new Promise(async(resolve, reject) => {
+            try {
+                await db.Conversation.update(dataUpdated, { where: { id } });
+                resolve()
+            } catch (error) {
+                reject(error)
+            }
+        })
+    },
+
+    addUser: function(id, userIds)  {
+        return new Promise(async (resolve, reject) => {
+            try {
+                await db.GroupMember.bulkCreate(userIds.map(userId => ({
+                    userId,
+                    conversationId: id
+                })))
+                const users = await db.User.findAll({
+                    where: {
+                        id: userIds
+                    },
+                    attributes: ['id', 'avatar', 'firstName', 'lastName', 'email', 'phoneNumber'],
+                })
+                resolve(users);
+            } catch (error) {
+                reject(error)
+            }
+        })
+    },
+
+    deleteUserFromConversation: function (conversationId, userId) {
+        return new Promise(async (resolve, reject) =>{
+            try {
+                await db.GroupMember.destroy({
+                    where: {
+                        userId,
+                        conversationId
+                    }
+                })
+                resolve(userId)
+            } catch (error) {
+                reject(error)
+            }
+        })
     }
+
 }
 
 module.exports = conversationService

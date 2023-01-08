@@ -51,14 +51,33 @@
     margin-left: 1.6rem;
 }
 
-.avatar {
-    border-radius: 50%;
-    overflow: hidden;
+.basic-info {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0.2rem;
+    border-radius: 8px;
+    transition: background-color 0.2s linear;
+
     &:hover {
         cursor: pointer;
-        opacity: 0.6;
+        background-color: #ccc;
+    }
+
+    .avatar {
+        border-radius: 50%;
+        overflow: hidden;
+    }
+    
+    .name {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 1rem;
+        color: white;
     }
 }
+
 
 .sub-user {
     position: absolute;
@@ -68,7 +87,7 @@
     flex-direction:column;
     align-items: center;
     justify-content: center;
-    min-width: 250%;
+    min-width: 150%;
     background-color: #ccc;
     font-size: 2.2rem;   
     border-radius: 8px;

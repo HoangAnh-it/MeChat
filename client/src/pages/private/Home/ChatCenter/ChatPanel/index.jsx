@@ -91,9 +91,12 @@ function ChatPanel({ className, conversation = { id: '', type: '' } }) {
     }
 
     const postMessages = async (e) => {
+        if (loading) return;
         if (e.keyCode === 13) {
-            setLoading(true);
             try {
+                if (state.medias.length > 0) {
+                    setLoading(true);
+                }
                 const urls = await uploadToFirebase(state.medias.map(media => media.content))
                 const dataUrls = urls.map(url => ({
                     url: url,
@@ -101,23 +104,15 @@ function ChatPanel({ className, conversation = { id: '', type: '' } }) {
                 }))
                 const dataMessages = createDataMessages({ messageText: state.message, urls: dataUrls });
                 if (dataMessages.length === 0) return;
-                axios.post(api.sendMessage(conversation.type, conversation.id, id), dataMessages)
-                    .then(response => {
-                        if (response.statusText === 'OK') {
-                            setTimeout(() => {
-                                dispatch(actions.resetValue())
-                                setLoading(false)
-                            }, 1000)
-                        }
-                    }).catch(error => {
-                        console.log(error);
-                        toast.error('Something went wrong when sending message!')
-                    })
-                    
-                } catch (error) {
-                    console.log(error)
-                    setLoading(false)
-                    toast.error('Something went wrong when sending message!')
+                const response = await axios.post(api.sendMessage(conversation.type, conversation.id, id), dataMessages)
+                if (response.statusText === 'OK') {
+                    dispatch(actions.resetValue())
+                }
+                setLoading(false)
+            } catch (error) {
+                console.log(error)
+                setLoading(false)
+                toast.error('Something went wrong when sending message!')
             }
         }
     }

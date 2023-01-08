@@ -57,7 +57,10 @@ function Header() {
             </div>
             
             <div className={cx('user')} ref={userRef}>
-                <Image className={cx('avatar')} onClick={handleClickSubUser} src={auth.user.avatar} />
+                <div className={cx('basic-info')} onClick={handleClickSubUser}>
+                    <Image className={cx('avatar')} src={auth.user.avatar} />
+                    <span className={cx('name')}>{`${auth.user.firstName} ${auth.user.lastName}`}</span>
+                </div>
                 {
                     isShownSubUser &&
                     <div className={cx("sub-user")}>

@@ -23,6 +23,7 @@ import {
     faFaceSmile,
     faImages,
     faRightToBracket,
+    faPlus
 } from "@fortawesome/free-solid-svg-icons";
 import { faFacebook, faGooglePlus } from '@fortawesome/free-brands-svg-icons';
 import Tippy from '@tippyjs/react';
@@ -80,3 +81,4 @@ export const NotificationIcon = CreateIcon(faBell);
 export const EmojiIcon = CreateIcon(faFaceSmile);
 export const MediaUploadIcon = CreateIcon(faImages);
 export const LogoutIcon = CreateIcon(faRightToBracket);
+export const PlusIcon = CreateIcon(faPlus);

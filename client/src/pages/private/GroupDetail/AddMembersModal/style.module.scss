@@ -1,0 +1,76 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0.5rem 0;
+    background-color: #ccc;
+    padding: 1rem;
+    border-radius: 10px;
+    width: 30%;
+
+    * {
+        color: black !important;
+    }
+}
+
+.title {
+    width: 100%;
+    
+}
+
+.input {
+
+    * {
+        font-size: 1.4rem !important;
+    }
+
+    .label {
+        margin-top: 5px;
+    }
+}
+
+.list {
+    width: 90%;
+    min-height: 10rem;
+    max-height: 20rem;
+    overflow-y: scroll;
+    border: 1px solid #fff;
+    position: relative;
+    padding: 1rem;
+
+    .item {
+        border: 1px solid rgb(129, 123, 123);
+        margin: 0.2rem 0;
+        cursor: pointer;
+    }
+
+    .item:hover {
+        background-color: rgb(126, 122, 122);
+    }
+
+    .btn-load-more {
+        margin: 0 auto;
+    }
+
+    .loading {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.actions {
+    .btn {
+        margin: 1rem 1rem;
+    }
+}
+
+.chosen {
+    background-color: rgb(99, 96, 96);
+}
+
+.instruction {
+    margin: 1rem 0;
+}

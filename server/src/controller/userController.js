@@ -44,7 +44,6 @@ const userController = {
             const data = req.body;
             const { id } = req.auth.user;
             const user = await userService.updateProfile(id, data);
-            console.log(user)
             return res.status(StatusCodes.OK).json(user)
         } catch (error) {
             const { status, message } = handleException(error);
@@ -54,9 +53,9 @@ const userController = {
 
     getMessages: async (req, res) => {
         try {
-            const { otherId, skip, limit } = req.query;
-            const { id: myId } = req.auth.user;
-            const listMessages = await conversationService.getMessages(myId, otherId, {
+            const { skip, limit } = req.query;
+            const { id: conversationId } = req.params;
+            const listMessages = await conversationService.getMessages(conversationId, {
                 skip: Number(skip) ?? 0,
                 limit: Number(limit)
             });
@@ -102,20 +101,15 @@ const userController = {
                 })
             }
             
-            io.in(senderId).emit(socketEvents.NEW_MESSAGE, { messages: insertedMessages, conversationId: conversation.id })
-            io.in(otherId).emit(socketEvents.NEW_MESSAGE, { messages: insertedMessages, conversationId: conversation.id })
+            if (typeChat === 'private') {
+                console.log('emit', senderId, ' && ', otherId)
+                io.in(senderId).emit(socketEvents.NEW_MESSAGE, { messages: insertedMessages, conversationId: conversation.id })
+                io.in(otherId).emit(socketEvents.NEW_MESSAGE, { messages: insertedMessages, conversationId: conversation.id })
+            } else if (typeChat === 'public') {
+                console.log('emit', conversationId)
+                io.in(conversationId).emit(socketEvents.NEW_MESSAGE, { messages: insertedMessages, conversationId: conversation.id })
+            }
 
-            return res.sendStatus(StatusCodes.OK);
-        } catch (error) {
-            const { status, message } = handleException(error);
-            return res.status(status).json({ message: message })
-        }
-    },
-
-    deleteConversation: async (req, res) => {
-        try {
-            const { id } = req.params;
-            await conversationService.deleteOne(id);
             return res.sendStatus(StatusCodes.OK);
         } catch (error) {
             const { status, message } = handleException(error);
@@ -144,18 +138,32 @@ const userController = {
 
     getUsers: async (req, res) => {
         try {
-            const { search, limit, skip } = req.query;
-            let users = []
-            users = await userService.getUsers({
-                where: {
+            const { search, limit, skip, exclude } = req.query;
+            let filter = {
                     [Op.or]: {
                         phoneNumber: { [Op.like]: `%${search}%` },
                         email: { [Op.like]: `%${search}%` },
                         firstName: { [Op.like]: `%${search}%` },
                         lastName: { [Op.like]: `%${search}%` },
                     }
-                },
-                attributes: ['id', 'avatar', [Sequelize.fn("concat", Sequelize.col("firstName"), ' ', Sequelize.col("lastName")), 'name'], 'intro'],
+                }
+            
+            if (exclude) {
+                const excludeOptions = JSON.parse(exclude)
+                filter = {
+                    ...filter,
+                    [Op.not]: [
+                        ...Object.keys(excludeOptions).map(key => ({
+                            [key]: excludeOptions[key]
+                        }))
+                    ]
+                }
+            }
+
+            let users = []
+            users = await userService.getUsers({
+                where: filter,
+                attributes: ['id', 'avatar', [Sequelize.fn("concat", Sequelize.col("firstName"), ' ', Sequelize.col("lastName")), 'name'], 'email', 'phoneNumber'],
                 limit: Number(limit),
                 offset: Number(skip || 0)
             });

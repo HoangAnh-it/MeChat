@@ -1,0 +1,28 @@
+.container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 4rem;
+}
+
+.title {
+    color: var(--primary-color)
+}
+
+.link {
+    color: rgb(113, 109, 109);
+    text-decoration: underline;
+    margin: 0 1rem;
+    padding: 0.2rem;
+
+    &:hover {
+        color: purple;
+    }
+}

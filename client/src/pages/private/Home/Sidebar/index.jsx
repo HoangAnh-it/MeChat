@@ -2,7 +2,7 @@ import { useReducer, useState, useEffect, createRef, useRef } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { SearchIcon } from '~/components/Icon';
+import { PlusIcon, SearchIcon } from '~/components/Icon';
 import { useAxios, useSocket, useConfirmModal } from '~/hooks';
 import Input from '~/components/Input';
 import UserItem from '~/components/UserItem';
@@ -29,7 +29,8 @@ function Sidebar({ className }) {
     const [confirmModal_init, openConfirmModal, closeConfirmModal] = useConfirmModal();
 
     useEffect(() => {
-        axios.get(api.conversation)
+        console.log('fetch sidebar')
+        axios.get(api.chatPreview)
             .then(response => {
                 if (response.statusText === 'OK') {
                     socket.emit(socketEvents.JOIN_MULTIPLE_ROOMS, response.data.map(chat => chat.conversationId))
@@ -55,7 +56,7 @@ function Sidebar({ className }) {
         if (isFalsy(id) || !ready) return;
         const userChatting = sidebarState.chats.find(chatItem => extractBasicUser(chatItem).id === id);
         if (userChatting) {
-            inbox(extractBasicUser(userChatting))
+            socket.emit(socketEvents.INBOX,extractBasicUser(userChatting))
         }
         else {
             axios.get(api.basicInfo(id))
@@ -110,6 +111,7 @@ function Sidebar({ className }) {
 
 
     const handleClickMore = (index) => {
+        if (index < 0) return;
         if (moreRefs[index].current.style.display !== 'flex')
             moreRefs[index].current.style.display = 'flex';
         else
@@ -118,6 +120,10 @@ function Sidebar({ className }) {
 
     const handleToProfile = (chat) => {
         navigate(routes.private.toProfile(chat.id))
+    }
+
+    const handleToGroupDetail = (chat) => {
+        navigate(routes.private.toGroupDetail(chat.conversationId))
     }
     
     const handleRemoveChat = (chat) => {
@@ -140,7 +146,6 @@ function Sidebar({ className }) {
     }
 
     const inbox = (chat) => {
-        socket.emit(socketEvents.INBOX, chat)
         navigate(routes.private.toInbox(chat.id))
     }
 
@@ -158,7 +163,14 @@ function Sidebar({ className }) {
                 onChange={(event) => sidebarDispatch(actions.changeInputSearch(event.target.value))}
                 value={sidebarState.searchInput}
             />
-            <Link className={cx('btn-find-new-friends')} to={routes.private.friends}>Find new friends</Link>
+            <div className={cx('options')}>
+                <Button
+                    className={cx('btn-create-group')}
+                    LeftIcon={<PlusIcon />}
+                    onClick={() => navigate(routes.private.group_create)}
+                >Create group</Button>
+                <Link className={cx('btn-find-new-friends')} to={routes.private.friends}>Find new friends</Link>
+            </div>
 
 
             <div className={cx('list-chats')}>
@@ -188,7 +200,18 @@ function Sidebar({ className }) {
                                     </div>
                                     {
                                         <div className={cx('detail-more-actions')} ref={moreRefs[index]}>
-                                            <Button className={cx('item')} onClick={() => handleToProfile(data)}>View profile</Button>
+                                            <Button
+                                                className={cx('item')}
+                                                onClick={() => {
+                                                    if(data.conversationType === 'private') {
+                                                        handleToProfile(data)
+                                                    } else {
+                                                        handleToGroupDetail(data)
+                                                    }
+                                                }}
+                                            >
+                                                {data.conversationType === 'private' ? 'View profile' : 'Group detail'}
+                                            </Button>
                                             <Button className={cx('item')} onClick={() => handleRemoveChat(data)}>Remove chat</Button>
                                         </div>
                                     }

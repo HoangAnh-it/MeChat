@@ -15,6 +15,21 @@
     }
 }
 
+.options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.btn-create-group {
+    transition: all 0.2s linear;
+    cursor: pointer;
+    
+    &:hover {
+        background-color: rgb(123, 121, 121);
+    }
+}
+
 .btn-find-new-friends {
     display: inline-block;
     color: #ccc;
@@ -107,7 +122,7 @@
 }
 
 .inbox {
-    box-shadow: 0 0 4px white;
+    border: 2px solid white;
 }
 
 .no-chats {

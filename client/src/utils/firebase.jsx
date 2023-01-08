@@ -21,12 +21,12 @@ export default app;
 export const storage = getStorage(app);
 
 const upload = (media) => {
-    const mediaRef = ref(storage, `${FOLDER_NAME}/${Date.now().toString()}-${media.name.replace(/[ \t]+/g, '')}`)
+    const mediaRef = ref(storage, `${FOLDER_NAME}/${Date.now().toString()}-${media?.name?.replace(/[ \t]+/g, '') || 'name-'+ Date.now()}`)
     return uploadBytes(mediaRef, media).then(snapshot => getDownloadURL(snapshot.ref));
 }
 
 export const uploadToFirebase = (medias) => {
-  if (medias.length === 0) return [];
+  if (medias.length === 0) return Promise.resolve([]);
     const fileUploads = medias.map(media => upload(media))
     const urlPromises = Promise.all(fileUploads)
     return urlPromises;

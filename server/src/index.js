@@ -19,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors({
   origin: [process.env.CLIENT_URL],
+  methods: ['POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   credentials: true,
   preflightContinue: true
 }));
@@ -47,6 +48,7 @@ initialRoutes(app);
 initSocket(app, io(server,{
   cors: {
     origin: [process.env.CLIENT_URL],
+    methods: ['POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   }
 }));
 

@@ -20,6 +20,11 @@ const ConversationModel = (sequelize, DataTypes) => {
         type: {
             field: 'type',
             type: DataTypes.STRING,
+        },
+
+        admin: {
+            field: 'admin',
+            type: DataTypes.STRING,
         }
     }, {
         timestamp: true,

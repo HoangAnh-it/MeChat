@@ -8,10 +8,15 @@ const routes = {
 
     private: {
         base: '/',
-        home: '/home',
+        home: '/',
         profile: '/u/:id',
         toProfile: (id) => {
             return `/u/${id}`
+        },
+
+        groupDetail: '/g/:id',
+        toGroupDetail: (id) => {
+            return `/g/${id}`
         },
 
         chat: '/chat/:id',
@@ -19,7 +24,8 @@ const routes = {
             return `/chat/${id}`
         },
 
-        friends: '/friends'
+        friends: '/friends',
+        group_create: '/group/create'
     }
 }
 

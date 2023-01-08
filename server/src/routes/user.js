@@ -8,8 +8,8 @@ router.get(api.profile, authenticate, userController.profile);
 router.get(api.basicInfo, authenticate, userController.basicInfo);
 router.get(api.basicMultipleInfo, authenticate, userController.basicMultipleInfo);
 router.get(api.messages, authenticate, userController.getMessages)
-router.post(api.messages, authenticate, userController.sendMessages)
-router.delete(api.deleteConversation, authenticate, userController.deleteConversation)
+router.post(api.sendMessages, authenticate, userController.sendMessages)
+
 router.delete(api.deleteMessage, authenticate, userController.deleteMessage)
 router.patch(api.updateProfile, authenticate, userController.updateProfile)
 router.get(api.get, authenticate, userController.getUsers)

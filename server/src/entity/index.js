@@ -48,9 +48,16 @@ db.Conversation.hasMany(db.Message, {
 db.Message.belongsTo(db.Conversation);
 
 // conversation - contact
-db.Conversation.belongsToMany(db.User, { through: db.GroupMember });
-
-db.User.belongsToMany(db.Conversation, { through: db.GroupMember });
+db.Conversation.belongsToMany(db.User, {
+  through: db.GroupMember,
+  foreignKey: 'conversationId',
+  otherKey: 'userId'
+});
+db.User.belongsToMany(db.Conversation, {
+  through: db.GroupMember,
+  foreignKey: 'userId',
+  otherKey: 'conversationId'
+});
 
 // reaction
 db.Message.hasMany(db.Reaction, {

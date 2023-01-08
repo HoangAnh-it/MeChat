@@ -15,7 +15,7 @@ import Reaction from './Reaction';
 const cx = ClassNames(style);
 
 function Message(props, ref) {
-    const { className, data, isAvatarShown, loading } = props;
+    const { className, data, members, isAvatarShown, loading } = props;
     const [isLoading, setLoading] = useState(loading || false)
     const [auth] = useAuth();
 
@@ -31,7 +31,10 @@ function Message(props, ref) {
     })
     return (
         <div className={classes} ref={ref}>
-            <Tippy placement='left' content={'User name'}>
+            <Tippy
+                placement='left'
+                content={members.find(member => member.id === data.from)?.lastName}
+            >
                 <Image className={cx('user', { isAvatarShown: !!isAvatarShown })} />
             </Tippy>
             <Tippy

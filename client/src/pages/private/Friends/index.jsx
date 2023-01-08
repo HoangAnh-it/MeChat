@@ -44,13 +44,19 @@ function Friends() {
         }))
             .then(res => {
                 if (res.statusText === 'OK') {
+                    const data = res.data.map(d => ({
+                        id: d.id,
+                        name: d.name,
+                        avatar: d.avatar,
+                        intro: `${d.email || '[no email]'} - ${d.phoneNumber || '[no phone]'}`
+                    }))
                     setTimeout(() => {
                         if (!inserted) {
-                            setUsers(res.data);
+                            setUsers(data);
                         } else {
                             setUsers(u => ([
                                 ...u,
-                                ...res.data
+                                ...data
                             ]))
                         }
                         setLoading(false)

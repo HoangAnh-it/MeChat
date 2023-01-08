@@ -33,7 +33,7 @@ const userService = {
                             [Op.or]: ids
                         }
                     },
-                    attributes: ['id', 'avatar', 'firstName', 'lastName'],
+                    attributes: ['id', 'avatar', 'firstName', 'lastName', 'email', 'phoneNumber'],
                     ...options
                 })
                 resolve(users)
@@ -64,7 +64,7 @@ const userService = {
 
     getBasicInfo: function (id) {
         return this.findById(id, {
-            attributes: ['avatar', 'firstName', 'lastName']
+            attributes: ['avatar', 'firstName', 'lastName', 'email', 'phoneNumber']
         })
     },
 
@@ -183,7 +183,9 @@ const userService = {
                 reject(error)
             }
         })
-    }
+    },
+
+    
 };
 
 module.exports = userService;

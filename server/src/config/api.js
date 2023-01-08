@@ -5,18 +5,29 @@ module.exports = {
     signup: '/signup',
     authenticate: '/authenticate',
     
+    // home
     home: '/api/home',
-    conversation: '/c',
-    deleteConversation: '/c/delete/:id',
-
+    chatPreview: '/chat_preview',
+    
+    // user
     user: '/api/user',
     basicInfo: '/basic_info/:id',
     basicMultipleInfo: '/basic_multiple_info/:ids',
     profile: '/profile/:id',
     updateProfile: '/profile_update/:id',
-    messages: '/messages',
+    messages: '/messages/get/:id',
+    sendMessages: '/messages/send',
     deleteMessage: '/m/delete/:id',
     get: '/get',
     reactMessage: '/react_message',
     removeReaction: '/remove_reaction/:id',
+    
+    // conversation
+    conversation: '/api/c',
+    deleteConversation: '/delete/:id',
+    createConversation: '/create',
+    conversationDetail: '/detail/:id',
+    updateConversation: '/update',
+    addUserToConversation: '/add-user',
+    deleteUserFromConversation: '/delete-user',
 }

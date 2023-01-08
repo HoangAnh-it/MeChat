@@ -13,31 +13,26 @@ const cx = ClassNames(style);
 
 const LIMIT_MESSAGE = 20;
 
-function Inbox({ className }) {
-
-
-
-    // FIX FETCH MESSAGES IF TYPE_CONVERSATION = 'public'
-
-
-
+function Inbox({ className, userChatting }) {
     const { id } = useParams()
     const [isNoData, setIsNoData] = useState(false)
     const [inboxState, inboxDispatch] = useReducer(reducer, initialState);
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
     const containerRef = useRef()
     const containerObserver = useRef()
     const firstMessageRef = useRef()
-    const positionScrollBottom = useRef(-1)
+    const positionScrollBottom = useRef(0)
     const axios = useAxios()
     const [socket, socketEvents] = useSocket()
 
     const fetchData = (fromStart = false) => {
+        if (Object.keys(userChatting).length === 0) return;
+        if (!fromStart && isNoData) return;
         setLoading(true);
-        axios.get(api.getMessages(id), {
+        axios.get(api.getMessages(userChatting.conversationId), {
             params: {
                 limit: LIMIT_MESSAGE,
-                skip: fromStart ? 0 :inboxState.messages.length
+                skip: fromStart ? 0 : inboxState.messages.length
             }
         })
             .then((response) => {
@@ -47,17 +42,14 @@ function Inbox({ className }) {
                         if (firstMessageRef.current) {
                             containerObserver.current.unobserve(firstMessageRef.current)
                         }
-                    } else {
-                        if (!fromStart) {
-                            inboxDispatch(inboxActions.loadNewMessages(response.data.reverse()))
-                        } else {
-                            inboxDispatch(inboxActions.loadInitMessages(response.data.reverse()))
-                        }
-                        setLoading(false)
                     }
-                    setTimeout(() => {
-                        setLoading(false)
-                    }, 1000);
+                    if (!fromStart) {
+                        inboxDispatch(inboxActions.loadNewMessages(response.data.reverse()))
+                    } else {
+                        inboxDispatch(inboxActions.loadInitMessages(response.data.reverse()))
+                    }
+                        
+                    setLoading(false)
                 }
             })
             .catch(error => {
@@ -69,16 +61,26 @@ function Inbox({ className }) {
 
     useEffect(() => {
         if (id) {
-            setIsNoData(false)
+            positionScrollBottom.current = 0;
             fetchData(true)
         }
-    }, [id])
+    }, [userChatting.conversationId])
 
+    useEffect(() => {
+        const element = containerRef.current;
+        if (positionScrollBottom.current <= 0) {
+            element.scrollTop = element.scrollHeight - element.clientHeight;
+        } else {
+            element.scrollTop = element.scrollHeight - positionScrollBottom.current;
+        }
+    }, [inboxState.messages.length])
+    
     useEffect(() => {
         if (inboxState.messages.length === 0 || isNoData) return;
 
         containerObserver.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting) {
+                console.log('isIntersecting')
                 positionScrollBottom.current = containerRef.current.scrollHeight - containerRef.current.scrollTop
                 fetchData()
             }
@@ -98,23 +100,12 @@ function Inbox({ className }) {
     }, [inboxState.messages.length])
 
     useEffect(() => {
-        const element = containerRef.current;
-        if (positionScrollBottom.current <= 0) {
-            element.scrollTop = element.scrollHeight - element.clientHeight;
-            positionScrollBottom.current = 0;
-        } else {
-            element.scrollTop = element.scrollHeight - positionScrollBottom.current;
-        }
-    }, [inboxState.messages.length])
-
-    useEffect(() => {
         const newMessageListener = ({ messages }) => {
             positionScrollBottom.current = 0;
             inboxDispatch(inboxActions.addMessages(messages))
         }
 
         const deleteMessageListener = (data) => {
-            console.log('delete message')
             inboxDispatch(inboxActions.deleteMessage(data))
         }
         
@@ -140,17 +131,26 @@ function Inbox({ className }) {
     }, [socket])
 
     return (
-        <div className={[cx('container'), className].join(' ')} ref={containerRef}>
-            {
-                loading && <Loading className={cx('loading')} />
-            }
-            {
-                inboxState.messages.map((message, index, list) => {
-                    const isAvatarShown = !(index < list.length - 1 && message.from === list[index + 1].from)
-                    const ref = index === 0 ? firstMessageRef : null;
-                    return <Message key={index} data={message} isAvatarShown={isAvatarShown} ref={ref} loading={false} />
-                })
-            }
+        <div className={[cx('container'), className].join(' ')}>
+                {
+                    loading && <Loading className={cx('loading')} />
+                }
+            <div className={cx('body')} ref={containerRef}>
+                {
+                    inboxState.messages.map((message, index, list) => {
+                        const isAvatarShown = !(index < list.length - 1 && message.from === list[index + 1].from)
+                        const ref = index === 0 ? firstMessageRef : null;
+                        return <Message
+                            key={index}
+                            data={message}
+                            isAvatarShown={isAvatarShown}
+                            ref={ref}
+                            loading={false} 
+                            members={userChatting.users}    
+                        />
+                    })
+                }
+            </div>
         </div>
     );
 }

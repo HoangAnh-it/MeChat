@@ -30,7 +30,11 @@ function ChatDetail(props) {
     }, [socket])
 
     const handleToProfile = () => {
-        navigate(routes.private.toProfile(userChatting.id), { replace: true })
+        if (userChatting.conversationType === 'public') {
+            navigate(routes.private.toGroupDetail(userChatting.conversationId), { replace: true })
+        } else if (userChatting.conversationType === 'private') {
+            navigate(routes.private.toProfile(userChatting.id), { replace: true })
+        }
     }
 
     const handleCloseChat = () => {
