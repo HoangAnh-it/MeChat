@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { PlusIcon, SearchIcon } from '~/components/Icon';
-import { useAxios, useSocket, useConfirmModal } from '~/hooks';
+import { useAxios, useSocket, useConfirmModal, useAuth } from '~/hooks';
 import Input from '~/components/Input';
 import UserItem from '~/components/UserItem';
 import More from './More';
@@ -24,6 +24,7 @@ function Sidebar({ className }) {
     const [ready, setReady] = useState(false);
     const [sidebarState, sidebarDispatch] = useReducer(reducer, initialState);
     const axios = useAxios()
+    const [auth] = useAuth()
     const navigate = useNavigate()
     const [socket, socketEvents] = useSocket();
     const [confirmModal_init, openConfirmModal, closeConfirmModal] = useConfirmModal();
@@ -145,6 +146,31 @@ function Sidebar({ className }) {
         openConfirmModal()
     }
 
+    const handleLeftGroup = (chat) => {
+        const leftConversation = () => {
+            axios.post(api.leftGroup, {
+                conversationId: chat.conversationId
+            })
+                .then(response => {
+                    if (response.statusText === 'OK') {
+                        sidebarDispatch(actions.deleteChat(chat.conversationId))
+                        closeConfirmModal()
+                    }
+                    return;
+                })
+                .then(() => {
+                    navigate(routes.private.home, { replace: true });
+                })
+                .catch(error => {
+                    console.log(error)
+                    toast.error('Cannot left group')
+                })
+        }
+
+        confirmModal_init(`Left group?`, `Do you wanna left group: ${chat.name}?`, leftConversation);
+        openConfirmModal()
+    }
+
     const inbox = (chat) => {
         navigate(routes.private.toInbox(chat.id))
     }
@@ -192,7 +218,7 @@ function Sidebar({ className }) {
                                             className={cx('user')}
                                             data={data}
                                             onClick={(e) => {
-                                                if(!e.target.classList.contains(cx('more-actions')))
+                                                if (!e.target.classList.contains(cx('more-actions')))
                                                     handleClickInbox(data)
                                             }}
                                             More={<More className={cx('more-actions')} onClick={() => handleClickMore(index)} />}
@@ -203,7 +229,7 @@ function Sidebar({ className }) {
                                             <Button
                                                 className={cx('item')}
                                                 onClick={() => {
-                                                    if(data.conversationType === 'private') {
+                                                    if (data.conversationType === 'private') {
                                                         handleToProfile(data)
                                                     } else {
                                                         handleToGroupDetail(data)
@@ -212,7 +238,13 @@ function Sidebar({ className }) {
                                             >
                                                 {data.conversationType === 'private' ? 'View profile' : 'Group detail'}
                                             </Button>
-                                            <Button className={cx('item')} onClick={() => handleRemoveChat(data)}>Remove chat</Button>
+
+                                            {
+                                                (data.conversationType === 'private' || (data.conversationType === 'public' && data.admin === auth.user.id)) ?
+                                                    <Button className={cx('item')} onClick={() => handleRemoveChat(data)}>Remove chat</Button>
+                                                    :
+                                                    <Button className={cx('item')} onClick={() => handleLeftGroup(data)}>Left group</Button>
+                                            }
                                         </div>
                                     }
                                 </div>

@@ -70,7 +70,7 @@ function Friends() {
     }
 
     const handleSearch = () => {
-        if (!search) return;
+        if (!search || loading) return;
         fetch(0)
     }
 

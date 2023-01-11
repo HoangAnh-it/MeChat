@@ -2,6 +2,7 @@ const { db } = require('../entity');
 const { Op, QueryTypes } = require('sequelize');
 const { NotFoundException } = require('../exception')
 const conversationService = require('./conversationService');
+const messageService = require('./messageService');
 const queries = require('../utils/rawQueries');
 
 const userService = {
@@ -185,6 +186,27 @@ const userService = {
         })
     },
 
+    leftConversation: function(userId, conversationId) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                await db.GroupMember.update({ leftDateTime: Date.now() }, {
+                    where: {userId, conversationId}
+                })
+                const user = await this.findById(userId);
+                const lastOrder = await messageService.getLastOrderNumberOfMessageInConversation(conversationId)
+                const announcement = await db.Message.create({
+                    from: userId,
+                    content: `${user.firstName} ${user.lastName} left group.`,
+                    conversationId,
+                    type: 'announcement',
+                    orderNumber: lastOrder + 1
+                })
+                resolve(announcement)
+            } catch (error) {
+                reject(error)
+            }
+        })
+    }
     
 };
 

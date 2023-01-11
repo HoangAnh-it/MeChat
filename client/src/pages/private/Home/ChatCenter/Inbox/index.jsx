@@ -138,7 +138,7 @@ function Inbox({ className, userChatting }) {
             <div className={cx('body')} ref={containerRef}>
                 {
                     inboxState.messages.map((message, index, list) => {
-                        const isAvatarShown = !(index < list.length - 1 && message.from === list[index + 1].from)
+                        let isAvatarShown = !(index < list.length - 1 && ( message.from === list[index + 1].from && list[index + 1].type !== 'announcement'))
                         const ref = index === 0 ? firstMessageRef : null;
                         return <Message
                             key={index}

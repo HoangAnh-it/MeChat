@@ -7,9 +7,10 @@ import style from './style.module.scss';
 import ClassNames from '~/utils/classNames';
 import Input from '~/components/Input';
 import {reducer, initialState, actions } from '~/store/login';
-import Button from '~/components/Button';
 import { isEmail, isPhoneNumber, trimObject } from '~/utils/validator';
 import { useAxios, useAuth } from '~/hooks';
+import { Button } from '@mui/material'
+import {LoadingButton} from '@mui/lab'
 import api from '~/config/api'
 import routes from '~/config/routes';
 
@@ -71,12 +72,12 @@ function Login() {
                     onChange={(event) => dispatch(actions.handleOnChangePassword(event.target.value))}
                 />
 
-                <Link to="" className={cx("forgot-password")}>Forgot password?</Link>
+                {/* <Link to="" className={cx("forgot-password")}>Forgot password?</Link> */}
 
                 <Button
                     className={cx('btn-login')}
-                    primary
                     onClick={handleLogin}
+                    variant="contained"
                 >
                     LOG IN
                 </Button>
@@ -85,15 +86,19 @@ function Login() {
                     <h4 className={cx('title-more')}>Or login with</h4>
                     <div className={cx('options')}>
                         <Button
-                            className={cx('google-login', 'icon')}
-                            LeftIcon={<GoogleIcon/>}
+                            className={[cx('google-login', 'icon'), 'disabled'].join(' ')}
+                            startIcon={<GoogleIcon />}
+                            variant="outlined"
+                            disabled
                         >
                             Google
                         </Button>
 
                         <Button
-                            className={cx('facebook-login', 'icon')}
-                            LeftIcon={<FacebookIcon />}
+                            className={[cx('facebook-login', 'icon'), 'disabled'].join(' ')}
+                            startIcon={<FacebookIcon />}
+                            variant="outlined"
+                            disabled
                         >
                             Facebook
                         </Button>

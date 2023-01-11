@@ -39,7 +39,7 @@ function Message(props, ref) {
             </Tippy>
             <Tippy
                 placement={isYours ? 'left' : 'right'}
-                content={!isUnsent ? `sent ${sentDateTime}` : `sent ${sentDateTime}-unsent ${deletedAt}`}
+                content={!isUnsent ? `${sentDateTime}` : `sent ${sentDateTime}-unsent ${deletedAt}`}
             >
                 <div className={cx('main')}>
                     <div className={cx('content')}>
@@ -61,7 +61,11 @@ function Message(props, ref) {
                                                 }
                                             </Text>
                                             :
-                                            <Text className={cx('error_message')}>Error message!!!</Text>
+                                            data.type === 'announcement' ?
+                                                <div className={cx('message_announcement')}>{data.content}</div>
+                                                :
+                                                <Text className={cx('error_message')}>Error message!!!</Text>
+                                
                                 :
                                 <span className={cx('unsent_message')}>message was unsent</span>
                         }
@@ -75,7 +79,7 @@ function Message(props, ref) {
             </Tippy>
 
             {
-                !isUnsent &&
+                !isUnsent && data.type !== 'announcement' &&
                 <Actions className={cx('actions')} isYours={isYours} messageId={data.id} />
             }
         </div>

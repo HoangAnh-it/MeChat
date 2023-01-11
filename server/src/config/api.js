@@ -21,6 +21,7 @@ module.exports = {
     get: '/get',
     reactMessage: '/react_message',
     removeReaction: '/remove_reaction/:id',
+    leftGroup: '/left_group',
     
     // conversation
     conversation: '/api/c',

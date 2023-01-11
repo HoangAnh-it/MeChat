@@ -198,6 +198,21 @@ const userController = {
             const { status, message } = handleException(error);
             return res.status(status).json({ message: message })
         }
+    },
+
+    leftConversation: async (req, res) => {
+        try {
+            const { io, socket } = req.app.get('socket.io');
+            const { conversationId } = req.body;
+            const userId = req.auth.user.id;
+            const announcement = await userService.leftConversation(userId, conversationId);
+            socket.leave(conversationId);
+            io.in(conversationId).emit(socketEvents.NEW_MESSAGE, { messages: [announcement], conversationId });
+            return res.status(StatusCodes.OK).json(announcement);
+        } catch (error) {
+            const { status, message } = handleException(error);
+            return res.status(status).json({ message: message })
+        }
     }
 }
 

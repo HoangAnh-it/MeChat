@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useReducer, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -7,8 +7,9 @@ import style from './style.module.scss';
 import ClassNames from '~/utils/classNames';
 import Input from '~/components/Input';
 import {reducer, initialState, actions } from '~/store/signup';
-import Button from '~/components/Button';
 import { isEmail, isPhoneNumber, isEmptyString, trimObject } from '~/utils/validator';
+import { Button } from '@mui/material'
+import {LoadingButton} from '@mui/lab'
 import { useAxios } from '~/hooks';
 import api from '~/config/api';
 import routes from '~/config/routes';
@@ -16,6 +17,7 @@ const cx = ClassNames(style);
 
 function Signup() {
     const [state, dispatch] = useReducer(reducer, initialState);
+    const [loading, setLoading] = useState(false)
     const axios = useAxios()
     const navigate = useNavigate()
 
@@ -33,19 +35,27 @@ function Signup() {
             return;
         }
 
+        if (state.password.length < 8) {
+            toast.error('Password must be at least 8 characters long.');
+            return;
+        }
+
         if (state.password !== state.rePassword) {
             toast.error('Retype Password does not match');
             return;
         }
         
+        setLoading(true)
         axios.post(api.signup, trimObject(state))
             .then(response => {
                 if (response.statusText === 'OK') {
                     toast.success(response.data.message)
                     navigate(routes.public.login, { replace: true });
+                    setLoading(false)
                 }
             })
             .catch(error => {
+                setLoading(false)
                 console.log(error)
                 toast.error(error.response.data.message);
             })
@@ -101,27 +111,33 @@ function Signup() {
                     onChange={(event) => dispatch(actions.handleOnChangeRePassword(event.target.value))}
                 />
 
-                <Button
+                <LoadingButton
                     className={cx('btn-signup')}
-                    primary
                     onClick={handleSignUp}
+                    variant="contained"
+                    loading={loading}
                 >
                     SIGN UP
-                </Button>
+                </LoadingButton>
+
 
                 <div className={cx('signup-more')}>
                     <h4 className={cx('title-more')}>Or sign up with</h4>
                     <div className={cx('options')}>
                         <Button
-                            className={cx('google-signup', 'icon')}
-                            LeftIcon={<GoogleIcon/>}
+                            className={[cx('google-login', 'icon'), 'disabled'].join(' ')}
+                            startIcon={<GoogleIcon />}
+                            variant="outlined"
+                            disabled
                         >
                             Google
                         </Button>
 
                         <Button
-                            className={cx('facebook-signup', 'icon')}
-                            LeftIcon={<FacebookIcon />}
+                            className={[cx('facebook-login', 'icon'), 'disabled'].join(' ')}
+                            startIcon={<FacebookIcon />}
+                            variant="outlined"
+                            disabled
                         >
                             Facebook
                         </Button>

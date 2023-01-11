@@ -23,6 +23,7 @@
     "dotenv": "^16.0.3",
     "emoji-picker-react": "^4.4.7",
     "firebase": "^9.15.0",
+    "gapi-script": "^1.2.0",
     "moment": "^2.29.4",
     "normalize.css": "^8.0.1",
     "prop-types": "^15.8.1",

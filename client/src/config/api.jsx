@@ -35,6 +35,8 @@ const api = {
         return `/api/user/remove_reaction/${reactionId}`
     },
 
+    leftGroup: 'api/user/left_group',
+
     // conversation
     conversationCreation: '/api/c/create',
     deleteConversation: (id) => `/api/c/delete/${id}`,

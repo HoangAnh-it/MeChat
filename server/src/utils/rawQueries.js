@@ -13,6 +13,7 @@ const queries = {
             c.type AS conversationType,
             c.name AS conversationName,
             c.avatar AS conversationAvatar,
+            c.admin AS admin,
             GROUP_CONCAT(
                 CONCAT(
                     '{',
@@ -58,7 +59,11 @@ const queries = {
             
         WHERE
             c.id IN (
-                SELECT DISTINCT conversationId from ${tables.GroupMembers} where userId = :userId
+                SELECT DISTINCT _c.conversationId from ${tables.GroupMembers}  as _c
+                WHERE 
+                    userId = :userId
+                AND 
+                    _c.leftDateTime IS NULL
             )
         AND
                 u.id != :userId

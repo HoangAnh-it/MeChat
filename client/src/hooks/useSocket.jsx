@@ -13,7 +13,7 @@ const useSocket = () => {
         DELETE_CHAT: 'DELETE_CHAT',
         DELETE_MESSAGE: 'DELETE_MESSAGE',
         REACT_MESSAGE: 'REACT_MESSAGE',
-        REMOVE_REACTION: 'REMOVE_REACTION'
+        REMOVE_REACTION: 'REMOVE_REACTION',
     }
 
     return [socket, events]

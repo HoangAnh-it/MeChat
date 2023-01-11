@@ -9,11 +9,11 @@ router.get(api.basicInfo, authenticate, userController.basicInfo);
 router.get(api.basicMultipleInfo, authenticate, userController.basicMultipleInfo);
 router.get(api.messages, authenticate, userController.getMessages)
 router.post(api.sendMessages, authenticate, userController.sendMessages)
-
 router.delete(api.deleteMessage, authenticate, userController.deleteMessage)
 router.patch(api.updateProfile, authenticate, userController.updateProfile)
 router.get(api.get, authenticate, userController.getUsers)
 router.post(api.reactMessage, authenticate, userController.reactMessage)
 router.delete(api.removeReaction, authenticate, userController.removeReaction)
+router.post(api.leftGroup, authenticate, userController.leftConversation)
 
 module.exports = router;

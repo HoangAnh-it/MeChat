@@ -53,7 +53,7 @@ function Header() {
             <Text className={cx('logo')} onClick={comeHome}>MeChat</Text>
             <div className={cx('empty')}></div>
             <div className={cx('actions')}>
-                <NotificationIcon className={cx('item', 'noti')} />
+                {/* <NotificationIcon className={cx('item', 'noti')} /> */}
             </div>
             
             <div className={cx('user')} ref={userRef}>

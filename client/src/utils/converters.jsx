@@ -12,16 +12,30 @@ export const convertToPreviewChat = (chat) => {
     if (isFalsy(chat)) return initialChatItemPreview
 
     let intro = '';
-    const message = chat.lastMessage.type === 'text' ? chat.lastMessage.content : 'sent a media';
+    let message;
+    switch (chat.lastMessage.type) {
+        case 'text':
+        case 'announcement':
+            message = chat.lastMessage.content
+            break;
+    
+        case 'image':
+        case 'video':
+            message = 'sent a media.'
+            break;
+        
+        default:
+            message = 'error.'
+            break;
+    }
     const isMessageUnsent = !!chat.lastMessage.deletedAt
     if (Object.keys(chat.lastMessage).length > 0) {
-        chat.users.forEach(user => {
-            if (user.id === chat.lastMessage.from) {
-                intro= `${user.lastName}: ${isMessageUnsent ? 'Unsent a message' : message}`
-            } else {
-                intro= `You: ${isMessageUnsent ? 'Unsent a message' : message}`
-            }
-        })
+        const user = chat.users.find(user => user.id === chat.lastMessage.from);
+        if (user) {
+            intro = `${user.lastName}: ${isMessageUnsent ? 'Unsent a message' : message}`
+        } else {
+            intro= `You: ${isMessageUnsent ? 'Unsent a message' : message}`
+        }
     }
         
     if (chat.conversationType === 'private') {
@@ -43,7 +57,8 @@ export const convertToPreviewChat = (chat) => {
             intro,
             conversationId: chat.conversationId,
             conversationType: chat.conversationType,
-            users: chat.users
+            users: chat.users,
+            admin: chat.admin
         }
     }
 }
